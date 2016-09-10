@@ -1,0 +1,65 @@
+\documentclass[varwidth=17cm]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{pgfplots.groupplots}
+\usepackage{pgfplots}
+\usepgfplotslibrary{external}
+\usepackage{times}
+\pgfplotsset{width=17cm,compat=1.6}
+\usepackage{helvet}
+\usepackage{pgfplotstable}
+%  recommended:
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\pgfplotsset{every axis legend/.append style={
+at={(0.98,0.60)},
+anchor=south east}}
+\definecolor{plot1}{RGB}{17,68,170}
+\definecolor{plot2}{RGB}{228,17,61}
+\definecolor{plot3}{RGB}{44,185, 60} 
+\definecolor{plot4}{RGB}{138,29,31}  
+\definecolor{plot5}{RGB}{34, 5, 34}  
+\definecolor{plot5}{RGB}{0, 0, 0}   
+
+\pgfplotscreateplotcyclelist{mark-plot}{
+{plot1,mark=o},
+{plot2,mark=o},
+{plot3,mark=o},
+{plot5,dashed},
+{plot5,dashed},
+}
+\newcommand{\thickhline}{%
+    \noalign {\ifnum 0=`}\fi \hrule height 1pt
+    \futurelet \reserved@a \@xhline
+}  
+\begin{document}
+%
+
+
+%------------------------------------------
+% 			 
+%------------------------------------------
+\begin{tikzpicture}
+\begin{loglogaxis}[
+cycle list name=mark-plot,
+width=7.0cm,
+height=8.0cm,
+%axis on top,
+xlabel={Time to solution (s)},
+ylabel={Relative error},
+%xtick={10^{-2}$},
+legend style={at={(0.45,0.1)}},
+legend cell align=left, 
+axis background/.style={fill=white}, 
+xmin = 0,
+%xmax = 310
+]
+\addplot+ table[x=wallclock,y=v] {../../matlab/data/FS1_RK4_10.txt};
+\addlegendentry{FS1}
+\addplot+ table[x=wallclock,y=v] {../../matlab/data/SBP6_WEAK_RK4_10.txt};
+\addlegendentry{SBP6W}
+\addplot+ table[x=wallclock,y=v] {../../matlab/data/SBP6_STRONG_RK4_10.txt};
+\addlegendentry{SBP6S}
+\end{loglogaxis}
+\end{tikzpicture}  
+\end{document}
